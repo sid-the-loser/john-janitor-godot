@@ -1,0 +1,48 @@
+[gd_scene load_steps=9 format=3 uid="uid://crse0w7q7284p"]
+
+[ext_resource type="Texture2D" uid="uid://c1hqk4f2pswjf" path="res://Sprites/Sid/Textures/texture_07.png" id="1_13s1h"]
+[ext_resource type="Texture2D" uid="uid://b70x5q53v5abk" path="res://Sprites/Sid/Skyboxes/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="1_501vf"]
+[ext_resource type="PackedScene" uid="uid://do42dsrf2nn3t" path="res://Prefabs/Sid/obstacle.tscn" id="2_dtm0m"]
+[ext_resource type="PackedScene" uid="uid://eww8rdx2ldjv" path="res://Prefabs/Sid/player.tscn" id="3_ajc4b"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5155f"]
+albedo_texture = ExtResource("1_13s1h")
+uv1_triplanar = true
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_slrom"]
+panorama = ExtResource("1_501vf")
+
+[sub_resource type="Sky" id="Sky_gctqw"]
+sky_material = SubResource("PanoramaSkyMaterial_slrom")
+
+[sub_resource type="Environment" id="Environment_jbody"]
+background_mode = 2
+sky = SubResource("Sky_gctqw")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="Level1" type="Node3D"]
+
+[node name="stage" type="Node3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="stage"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+size = Vector3(20, 1, 20)
+material = SubResource("StandardMaterial3D_5155f")
+
+[node name="Obstacle" parent="stage" instance=ExtResource("2_dtm0m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.6391, 2.4, 0)
+size = Vector3(3, 1, 20)
+
+[node name="env" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="env"]
+environment = SubResource("Environment_jbody")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="env"]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Player" parent="." instance=ExtResource("3_ajc4b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05812, 0)
