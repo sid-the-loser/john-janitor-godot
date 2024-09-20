@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://b74sve13jx14p"]
+
+[ext_resource type="Script" path="res://Scripts/Sid/elevator_entry.gd" id="1_ryg67"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_30afj"]
+size = Vector3(2, 0.001, 2)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_mr7rv"]
+
+[node name="ElevatorEntry" type="CharacterBody3D"]
+script = ExtResource("1_ryg67")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_30afj")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_mr7rv")

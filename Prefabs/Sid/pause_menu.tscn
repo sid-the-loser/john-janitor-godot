@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=3 uid="uid://c1qpxvs324ajs"]
+
+[ext_resource type="Script" path="res://Scripts/Sid/pause_buttons.gd" id="1_0p5va"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_getsb"]
+
+[node name="PauseMenu" type="Panel"]
+material = SubResource("CanvasItemMaterial_getsb")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PauseButtons" type="VBoxContainer" parent="."]
+layout_mode = 2
+offset_top = 273.0
+offset_right = 1152.0
+offset_bottom = 374.0
+script = ExtResource("1_0p5va")
+
+[node name="ResumeButton" type="Button" parent="PauseButtons"]
+layout_mode = 2
+text = "Resume"
+
+[node name="RestartButton" type="Button" parent="PauseButtons"]
+layout_mode = 2
+text = "Restart Level"
+
+[node name="MainMenuButton" type="Button" parent="PauseButtons"]
+layout_mode = 2
+text = "Back to Main Menu"
+
+[connection signal="pressed" from="PauseButtons/ResumeButton" to="PauseButtons" method="_on_resume_button_pressed"]
+[connection signal="pressed" from="PauseButtons/RestartButton" to="PauseButtons" method="_on_restart_button_pressed"]
+[connection signal="pressed" from="PauseButtons/MainMenuButton" to="PauseButtons" method="_on_main_menu_button_pressed"]

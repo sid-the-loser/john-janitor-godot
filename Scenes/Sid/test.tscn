@@ -1,0 +1,118 @@
+[gd_scene load_steps=14 format=3 uid="uid://crse0w7q7284p"]
+
+[ext_resource type="Script" path="res://Scripts/Sid/level_1.gd" id="1_p4o87"]
+[ext_resource type="Texture2D" uid="uid://c1hqk4f2pswjf" path="res://Sprites/Sid/Textures/texture_07.png" id="2_a5bpv"]
+[ext_resource type="PackedScene" uid="uid://b74sve13jx14p" path="res://Prefabs/Sid/elevator_entry.tscn" id="2_rygqy"]
+[ext_resource type="PackedScene" uid="uid://do42dsrf2nn3t" path="res://Prefabs/Sid/obstacle.tscn" id="3_t761b"]
+[ext_resource type="Texture2D" uid="uid://b70x5q53v5abk" path="res://Sprites/Sid/Skyboxes/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="4_ofid4"]
+[ext_resource type="Script" path="res://Scripts/Sid/enemy_spawn.gd" id="5_eiwge"]
+[ext_resource type="PackedScene" uid="uid://eww8rdx2ldjv" path="res://Prefabs/Sid/player.tscn" id="6_4vs84"]
+[ext_resource type="PackedScene" uid="uid://c1qpxvs324ajs" path="res://Prefabs/Sid/pause_menu.tscn" id="8_qrh2j"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5155f"]
+albedo_texture = ExtResource("2_a5bpv")
+uv1_triplanar = true
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_slrom"]
+panorama = ExtResource("4_ofid4")
+
+[sub_resource type="Sky" id="Sky_gctqw"]
+sky_material = SubResource("PanoramaSkyMaterial_slrom")
+
+[sub_resource type="Environment" id="Environment_jbody"]
+background_mode = 2
+sky = SubResource("Sky_gctqw")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jsggd"]
+size = Vector3(1, 1, 3.11353)
+
+[node name="Test" type="Node3D"]
+script = ExtResource("1_p4o87")
+
+[node name="stage" type="Node3D" parent="."]
+
+[node name="ElevatorEntry" parent="stage" instance=ExtResource("2_rygqy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, -11.001)
+
+[node name="Floor" type="CSGBox3D" parent="stage"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+size = Vector3(20, 1, 20)
+material = SubResource("StandardMaterial3D_5155f")
+
+[node name="Floor2" type="CSGBox3D" parent="stage"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.1296, 4.6803, 0)
+use_collision = true
+size = Vector3(20, 1, 20)
+material = SubResource("StandardMaterial3D_5155f")
+
+[node name="Obstacle" parent="stage" instance=ExtResource("3_t761b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.639, 2.1, 0)
+size = Vector3(3, 1, 20)
+
+[node name="Obstacle2" parent="stage" instance=ExtResource("3_t761b")]
+transform = Transform3D(0.427232, -0.35422, 0.831866, 0, 0.920061, 0.391775, -0.904142, -0.167379, 0.393079, 6.96301, 1.78317, 9.53674e-07)
+size = Vector3(3, 1, 20)
+
+[node name="env" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="env"]
+environment = SubResource("Environment_jbody")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="env"]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="enemy_spawn" type="Node3D" parent="."]
+
+[node name="sp1" type="Area3D" parent="enemy_spawn" node_paths=PackedStringArray("ENEMY_TRIGGER", "SPAWN_POINTS")]
+transform = Transform3D(0.900281, 0, -0.43531, 0, 1, 0, 0.43531, 0, 0.900281, 14.6309, 6.57429, 3.90124)
+script = ExtResource("5_eiwge")
+ENEMY_TRIGGER = NodePath("../../Player")
+SPAWN_POINTS = [NodePath("../../enemy_spawn_areas/Location"), NodePath("../../enemy_spawn_areas/Location2"), NodePath("../../enemy_spawn_areas/Location3"), NodePath("../../enemy_spawn_areas/Location4"), NodePath("../../enemy_spawn_areas/Location5")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="enemy_spawn/sp1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90735e-06, 0, -0.314819)
+shape = SubResource("BoxShape3D_jsggd")
+
+[node name="enemy_spawn_areas" type="Node3D" parent="."]
+
+[node name="Location" type="Node3D" parent="enemy_spawn_areas"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.57, 6.33, 0)
+
+[node name="Location2" type="Node3D" parent="enemy_spawn_areas"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.1503, 6.33, 5.3849)
+
+[node name="Location3" type="Node3D" parent="enemy_spawn_areas"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.1454, 6.33, -6.80633)
+
+[node name="Location4" type="Node3D" parent="enemy_spawn_areas"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.754, 6.33, -7.487)
+
+[node name="Location5" type="Node3D" parent="enemy_spawn_areas"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.3035, 6.33, 8.70888)
+
+[node name="Player" parent="." node_paths=PackedStringArray("PAUSE_MENU") instance=ExtResource("6_4vs84")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, -10, -11.001)
+PAUSE_MENU = NodePath("../UI/PauseMenu")
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PauseMenu" parent="UI" instance=ExtResource("8_qrh2j")]
+visible = false
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[connection signal="reached_destination" from="stage/ElevatorEntry" to="Player" method="_on_elevator_entry_reached_destination"]
