@@ -1,11 +1,31 @@
-[gd_scene load_steps=4 format=3 uid="uid://b74sve13jx14p"]
+[gd_scene load_steps=12 format=3 uid="uid://b74sve13jx14p"]
 
 [ext_resource type="Script" path="res://Scripts/Sid/elevator_entry.gd" id="1_ryg67"]
+[ext_resource type="Texture2D" uid="uid://bjftrqjsybu0" path="res://Sprites/Sid/Textures/texture_06.png" id="2_45ure"]
+[ext_resource type="AudioStream" uid="uid://blp666v1vo438" path="res://SFX/Sid/BossaBossa(chosic.com).mp3" id="3_7ug5q"]
+[ext_resource type="AudioStream" uid="uid://oafbmndbcgqa" path="res://SFX/Sid/Doorbell.mp3" id="4_oi7ij"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_30afj"]
 size = Vector3(2, 0.001, 2)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_0rmi5"]
+size = Vector3(2, 0.001, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fh0cq"]
+size = Vector3(3, 0.001, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pfuu3"]
+size = Vector3(3, 0.001, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_a0rul"]
+size = Vector3(3, 0.001, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2e4b7"]
+albedo_texture = ExtResource("2_45ure")
+uv1_triplanar = true
+
 [sub_resource type="PlaneMesh" id="PlaneMesh_mr7rv"]
+material = SubResource("StandardMaterial3D_2e4b7")
 
 [node name="ElevatorEntry" type="CharacterBody3D"]
 script = ExtResource("1_ryg67")
@@ -13,5 +33,57 @@ script = ExtResource("1_ryg67")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_30afj")
 
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.78287, 0)
+shape = SubResource("BoxShape3D_0rmi5")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 1, 1.5, 0)
+shape = SubResource("BoxShape3D_fh0cq")
+
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -1, 1.5, 0)
+shape = SubResource("BoxShape3D_pfuu3")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="."]
+transform = Transform3D(1.91069e-15, 4.37114e-08, -1, 1, -4.37114e-08, 0, -4.37114e-08, -1, -4.37114e-08, -5.96046e-08, 1.5, -1)
+shape = SubResource("BoxShape3D_a0rul")
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_mr7rv")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 0, 0, 1, 0, 3, 0)
+mesh = SubResource("PlaneMesh_mr7rv")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 2.38419e-07, -1.63282e-14, -4.23516e-22, -4.37114e-08, -1.56676, -2.38419e-07, 1, -6.84854e-08, -2.63453e-05, 1.50112, -0.999988)
+mesh = SubResource("PlaneMesh_mr7rv")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(8.30477e-08, -1, 6.84854e-08, 0, -4.37114e-08, -1.56676, 1.1, 7.54979e-08, -5.1705e-15, 1, 1.50007, -0.108413)
+mesh = SubResource("PlaneMesh_mr7rv")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1.79213e-07, 1, -6.84854e-08, 0, -4.37114e-08, -1.56676, -1.1, -1.62921e-07, 1.11577e-14, -1, 1.49381, -0.108413)
+mesh = SubResource("PlaneMesh_mr7rv")
+
+[node name="ElevatorMusic" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 3, 0)
+stream = ExtResource("3_7ug5q")
+volume_db = -1.5
+autoplay = true
+emission_angle_enabled = true
+
+[node name="LevelArrivedMusic" type="AudioStreamPlayer3D" parent="ElevatorMusic"]
+stream = ExtResource("4_oi7ij")
+emission_angle_enabled = true
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 3.03942, 0)
+shadow_enabled = true
+spot_range = 7.1788
+spot_angle = 80.025
+
+[connection signal="finished" from="ElevatorMusic" to="." method="_on_elevator_music_finished"]
+[connection signal="finished" from="ElevatorMusic/LevelArrivedMusic" to="." method="_on_level_arrived_music_finished"]

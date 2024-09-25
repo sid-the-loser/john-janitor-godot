@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 GlobalValues="*res://Scripts/Sid/global_values.gd"
 
+[display]
+
+window/size/mode=3
+
 [input]
 
 forward={

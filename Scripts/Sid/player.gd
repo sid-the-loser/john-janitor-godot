@@ -47,6 +47,7 @@ func _physics_process(delta):
 	if !GlobalValues.paused:
 		if position.y < -200:
 			get_tree().reload_current_scene()
+			return null
 		
 		head_will_collide = ray_cast_3d.is_colliding()
 		
@@ -73,7 +74,7 @@ func _physics_process(delta):
 		if not is_on_floor():
 			velocity += get_gravity() * delta
 
-		if Input.is_action_just_pressed("jump") and is_on_floor() and !head_will_collide:
+		if Input.is_action_just_pressed("jump") and is_on_floor() and !head_will_collide and can_move:
 			velocity.y = JUMP_VELOCITY
 
 		var input_dir = Input.get_vector("left", "right", "forward", "backward")
@@ -90,5 +91,4 @@ func _physics_process(delta):
 
 
 func _on_elevator_entry_reached_destination():
-	print("yes")
 	can_move = true
